@@ -266,6 +266,11 @@ libraries = {
 "": SubResource("AnimationLibrary_lgc0m")
 }
 
+[node name="FloorRaycast" type="RayCast2D" parent="Sprite"]
+position = Vector2(0, 285.714)
+scale = Vector2(5.71429, 5.71429)
+target_position = Vector2(0, 400)
+
 [node name="Audio" type="ResourcePreloader" parent="." node_paths=PackedStringArray("player", "sprite")]
 editor_description = "The children of a MultipleAudioStreamPlayer Node must be all of type AudioStreamPlayer and have a lowercase name"
 script = ExtResource("30_a3fm4")
@@ -286,9 +291,6 @@ stream = ExtResource("31_tn5gr")
 
 [node name="run" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("31_v5138")
-
-[node name="FloorRaycast" type="RayCast2D" parent="."]
-target_position = Vector2(0, 400)
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(0, -55)

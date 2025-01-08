@@ -35,6 +35,9 @@ func movement_animations(_delta: float) -> void:
 		play("sprint")
 
 func grounded_animations(delta: float) -> void:
+	
+	rotation = lerp_angle(rotation, player.get_floor_normal().angle() + PI / 2, delta * 10)
+
 	if player.is_moving or player.is_direction_pressed:
 		movement_animations(delta)
 	else:
@@ -44,6 +47,17 @@ func grounded_animations(delta: float) -> void:
 
 func airtime_animations(_delta: float) -> void:
 	play("jump")
+	if $FloorRaycast.is_colliding() and player.velocity.y >= 0:
+		print(1)
+		var d = player.global_position.distance_to($FloorRaycast.get_collision_point())
+		var angle_d = fposmod(rotation_degrees, 360.0)
+		var spin = remap(player.velocity.y, 0, 400, 0, 106)
+		if angle_d < 10 and d < 50:
+			rotation = lerp_angle(rotation, 0.0, 0.5)
+		else:
+			rotation_degrees += player.velocity.x / 100 * 100 * spin
+	else:
+		rotation_degrees += player.velocity.x / 100
 
 func _process(delta: float) -> void:
 	if player.is_on_floor():

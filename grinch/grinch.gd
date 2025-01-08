@@ -81,16 +81,6 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-		if $FloorRaycast.is_colliding() and velocity.y >= 0:
-			var d = global_position.distance_to($FloorRaycast.get_collision_point())
-			var angle_d = fposmod($Sprite.rotation_degrees, 360.0)
-			var spin = remap(velocity.y, 0, 400, 0, 6)
-			if angle_d < 10 and d < 50:
-				$Sprite.rotation = lerp_angle($Sprite.rotation, 0.0, 0.5)
-			else:
-				$Sprite.rotation_degrees += velocity.x / 100 * spin
-		else:
-			$Sprite.rotation_degrees += velocity.x / 100
 		accel = ACCEL_AIR
 		decel = DECEL_AIR
 	if is_on_floor() or is_on_wall():
@@ -98,7 +88,7 @@ func _physics_process(delta: float) -> void:
 		decel = DECEL
 		jumps = MAX_JUMPS
 		dashes = MAX_DASHES
-		$Sprite.rotation = get_floor_normal().angle() + PI / 2
+	
 	
 	pressed_direction = Input.get_axis("left", "right")
 	jump()
