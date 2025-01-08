@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2edks6clj6cj"]
+
+[ext_resource type="Script" path="res://house_exit/exit.gd" id="1_mj180"]
+[ext_resource type="Texture2D" uid="uid://stufhd4hien5" path="res://house_exit/exit.png" id="2_ynreh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xh4s7"]
+radius = 24.0
+
+[node name="Exit" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_mj180")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_ynreh")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xh4s7")
+
+[connection signal="body_entered" from="." to="." method="entered"]

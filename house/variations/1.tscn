@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://boxnh1nooxlvk"]
+
+[ext_resource type="PackedScene" uid="uid://hmhhippos1xp" path="res://house/house.tscn" id="1_fcx83"]
+[ext_resource type="Texture2D" uid="uid://dceepynqiiujc" path="res://house/house.png" id="2_mmgeq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d71v3"]
+resource_local_to_scene = true
+size = Vector2(54, 6)
+
+[node name="House1" instance=ExtResource("1_fcx83")]
+width = 435
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(216, 0)
+scale = Vector2(0.75, 0.75)
+polygon = PackedVector2Array(-288, 0, -200, -160, -144, -160, -120, -192, -86, -212, -48, -192, -48, -256, -40, -256, -40, -37.3333, 32, -37.3333, 32, -256, 40, -256, 40, -160, 200, -160, 288, 0, 288, 277.333, -288, 277.333)
+
+[node name="Chimney" parent="." index="1"]
+position = Vector2(213, -123)
+
+[node name="Collision" parent="Chimney" index="1"]
+shape = SubResource("RectangleShape2D_d71v3")
+
+[node name="Sprite" parent="." index="2"]
+position = Vector2(216, -99)
+scale = Vector2(0.188, 0.188)
+texture = ExtResource("2_mmgeq")

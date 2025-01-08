@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://hmhhippos1xp"]
+
+[ext_resource type="Script" path="res://house/house.gd" id="1_md3p4"]
+[ext_resource type="Material" uid="uid://53yoc1imfos8" path="res://house/smoke.material" id="1_xmrjv"]
+[ext_resource type="Texture2D" uid="uid://cj4nqmh0r188t" path="res://house/smoke.png" id="2_cnqdb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l2ps5"]
+resource_local_to_scene = true
+size = Vector2(72, 8)
+
+[sub_resource type="SystemFont" id="SystemFont_y78kv"]
+font_names = PackedStringArray("Rubik")
+font_weight = 700
+
+[node name="House" type="StaticBody2D"]
+collision_mask = 2
+script = ExtResource("1_md3p4")
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+position = Vector2(288, 0)
+polygon = PackedVector2Array(-288, 0, -200, -160, -44, -160, -44, -256, -36, -256, -36, -160, 36, -160, 36, -256, 44, -256, 44, -160, 200, -160, 288, 0)
+
+[node name="Chimney" type="Area2D" parent="."]
+position = Vector2(288, -164)
+collision_layer = 8
+collision_mask = 2
+metadata/_edit_group_ = true
+
+[node name="Smoke" type="GPUParticles2D" parent="Chimney"]
+position = Vector2(0, -80)
+emitting = false
+amount = 50
+process_material = ExtResource("1_xmrjv")
+texture = ExtResource("2_cnqdb")
+lifetime = 2.0
+
+[node name="Collision" type="CollisionShape2D" parent="Chimney"]
+shape = SubResource("RectangleShape2D_l2ps5")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="SmokeTimers" type="Node" parent="."]
+
+[node name="TurnOff" type="Timer" parent="SmokeTimers"]
+one_shot = true
+
+[node name="TurnOn" type="Timer" parent="SmokeTimers"]
+one_shot = true
+
+[node name="Number" type="Label" parent="."]
+offset_left = 262.0
+offset_top = -88.0
+offset_right = 344.0
+offset_bottom = -65.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_y78kv")
+theme_override_font_sizes/font_size = 48
+text = "1"
+
+[connection signal="body_entered" from="Chimney" to="." method="entered_chimney"]
+[connection signal="timeout" from="SmokeTimers/TurnOff" to="." method="smoke_toggle"]
+[connection signal="timeout" from="SmokeTimers/TurnOn" to="." method="smoke_toggle"]

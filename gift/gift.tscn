@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cir1jd2j8vl0g"]
+
+[ext_resource type="Script" path="res://gift/gift.gd" id="1_xnlkm"]
+[ext_resource type="Texture2D" uid="uid://cxtj3f10f5xxr" path="res://gift/gift.png" id="2_qq41k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xh4s7"]
+radius = 24.0
+
+[node name="Gift" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_xnlkm")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_qq41k")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xh4s7")
+
+[connection signal="body_entered" from="." to="." method="collected"]
