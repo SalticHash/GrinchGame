@@ -1,13 +1,12 @@
 extends CharacterBody2D
 class_name Player
-
 @onready var INDOORS_SCENE = preload("res://indoors/indoors.tscn")
 @onready var WORLD_SCENE = preload("res://world/world.tscn")
 var house: int = -1
 var exiting_house: bool = false
 
 const MAX_SPEED: float = 300.0
-const ACCEL: float = 15.0
+const ACCEL: float = 5.0
 const DECEL: float = 5.0
 const ACCEL_AIR: float = 5.0
 const DECEL_AIR: float = 2.0
@@ -94,7 +93,9 @@ func _physics_process(delta: float) -> void:
 	jump()
 	dash()
 	walk(delta)
-
+	var slide = get_floor_normal().x
+	velocity.x += slide * delta * 300 * ((speed + 1) / 100)
+			
 	move_and_slide()
 
 signal entered_house
