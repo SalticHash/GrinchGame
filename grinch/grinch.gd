@@ -16,7 +16,7 @@ var is_moving: bool = false
 var speed: float = 0.0
 
 const DASH_VELOCITY: float = 500.0
-const MAX_DASHES: int = 1
+const MAX_DASHES: int = 10
 var dashes: int = MAX_DASHES
 
 const JUMP_VELOCITY: float = -700.0
@@ -55,9 +55,9 @@ func jump():
 	jumped.emit()
 
 signal dashed
-func dash():
+func dash(delta: float):
 	if !Input.is_action_pressed("sprint") or dashes <= 0: return
-	dashes -= 1
+	dashes -= delta
 	velocity.x = last_pressed_direction * DASH_VELOCITY
 	dashed.emit()
 
@@ -91,7 +91,7 @@ func _physics_process(delta: float) -> void:
 	
 	pressed_direction = Input.get_axis("left", "right")
 	jump()
-	dash()
+	dash(delta)
 	walk(delta)
 	var slide = get_floor_normal().x
 	velocity.x += slide * delta * 300 * ((speed + 1) / 100)
