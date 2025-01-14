@@ -5,6 +5,7 @@ class_name Player
 var house: int = -1
 var exiting_house: bool = false
 
+const SLIDE_FORCE: float = 300.0
 const MAX_SPEED: float = 300.0
 const ACCEL: float = 5.0
 const DECEL: float = 5.0
@@ -16,8 +17,8 @@ var is_moving: bool = false
 var speed: float = 0.0
 
 const DASH_VELOCITY: float = 500.0
-const MAX_DASHES: int = 10
-var dashes: int = MAX_DASHES
+const MAX_DASH_TIME: float = 10.0
+var dash_buffer: float = MAX_DASH_TIME
 
 const JUMP_VELOCITY: float = -700.0
 const MAX_JUMPS: int = 6
@@ -56,8 +57,8 @@ func jump():
 
 signal dashed
 func dash(delta: float):
-	if !Input.is_action_pressed("sprint") or dashes <= 0: return
-	dashes -= delta
+	if !Input.is_action_pressed("sprint") or dash_buffer <= 0: return
+	dash_buffer -= delta
 	velocity.x = last_pressed_direction * DASH_VELOCITY
 	dashed.emit()
 
@@ -66,6 +67,11 @@ func walk(delta):
 		velocity.x = move_toward(velocity.x, pressed_direction * MAX_SPEED, delta * 60 * accel)
 	else:
 		velocity.x = move_toward(velocity.x, 0, delta * 60 * decel)
+
+func slide(delta):
+	var slide_force = get_floor_normal().x
+	var slip_speed_factor = (speed / 100) + 1.0
+	velocity.x += slide_force * slip_speed_factor * delta * SLIDE_FORCE
 
 # Use degrees
 func angle_distance(angle_a: float, angle_b: float) -> float:
@@ -86,15 +92,14 @@ func _physics_process(delta: float) -> void:
 		accel = ACCEL
 		decel = DECEL
 		jumps = MAX_JUMPS
-		dashes = MAX_DASHES
+		dash_buffer = MAX_DASH_TIME
 	
 	
 	pressed_direction = Input.get_axis("left", "right")
 	jump()
 	dash(delta)
 	walk(delta)
-	var slide = get_floor_normal().x
-	velocity.x += slide * delta * 300 * ((speed + 1) / 100)
+	slide(delta)
 			
 	move_and_slide()
 
