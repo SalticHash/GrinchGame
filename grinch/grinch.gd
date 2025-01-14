@@ -17,7 +17,7 @@ var is_moving: bool = false
 var speed: float = 0.0
 
 const DASH_VELOCITY: float = 500.0
-const MAX_DASH_TIME: float = 10.0
+const MAX_DASH_TIME: float = 2.5
 var dash_buffer: float = MAX_DASH_TIME
 
 const JUMP_VELOCITY: float = -700.0
