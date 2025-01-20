@@ -2,7 +2,8 @@ extends CharacterBody2D
 class_name Player
 @onready var INDOORS_SCENE = preload("res://indoors/indoors.tscn")
 @onready var WORLD_SCENE = preload("res://world/world.tscn")
-var house: int = -1
+var current_house_id: String = "NONE"
+var entering_house: bool = false
 var exiting_house: bool = false
 
 const SLIDE_FORCE: float = 300.0
@@ -103,32 +104,46 @@ func _physics_process(delta: float) -> void:
 			
 	move_and_slide()
 
-signal entered_house
-func enter_house(house_id: int):
-	house = house_id
+## HOUSE ENTERING AND EXITING ##
+func enter_house(house_id: String):
+	current_house_id = house_id
 	await Transition.change_scene(INDOORS_SCENE)
-	velocity.y = 100
-	global_position = Vector2(0,0)
+	entering_house = true
+
+signal entered_house
+func goto_entered_house():
+	var chimney_container: Node2D = get_node("/root/Indoors/TileMapLayer/Chimneys")
+	var chimney: Area2D = chimney_container.get_node(str(current_house_id))
+	
+	velocity = Vector2.ZERO
+	global_position = chimney.global_position
+	
 	entered_house.emit()
+	entering_house = false
 
 func exit_house():
 	await Transition.change_scene(WORLD_SCENE)
 	exiting_house = true
 
 signal exited_house
-func goto_last_chimney():
-	var house_container: Node2D = get_node("/root/World/Houses")
-	var house_node: StaticBody2D = house_container.get_node(str(house))
-	var chimney = house_node.get_node("Chimney")
+func goto_exited_house():
+	var chimney_container: Node2D = get_node("/root/World/TileMapLayer/Chimneys")
+	var chimney: Area2D = chimney_container.get_node(str(current_house_id))
+	
 	velocity = Vector2.ZERO
 	global_position = chimney.global_position
-	house = -1
+	
+	current_house_id = "NONE"
+	
 	Settings.houses += 1
 	await get_tree().create_timer(0.5).timeout
 	velocity.y = JUMP_VELOCITY
 	exited_house.emit()
 	await get_tree().create_timer(0.5).timeout
 	exiting_house = false
+
+## HOUSE ENTERING AND EXITING ##
+
 
 signal burned
 func burn():

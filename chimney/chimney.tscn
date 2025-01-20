@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dbkielw3wgmqt" path="res://icon.svg" id="2_wc3vs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kqdi1"]
-size = Vector2(48, 48)
+size = Vector2(200, 200)
 
 [node name="Chimney" type="Area2D"]
 collision_layer = 8
@@ -12,10 +12,12 @@ collision_mask = 2
 script = ExtResource("1_5etwl")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(100, 100)
 shape = SubResource("RectangleShape2D_kqdi1")
 
 [node name="Icon" type="Sprite2D" parent="."]
-scale = Vector2(0.375, 0.375)
+scale = Vector2(1.563, 1.563)
 texture = ExtResource("2_wc3vs")
+centered = false
 
 [connection signal="body_entered" from="." to="." method="player_entered"]

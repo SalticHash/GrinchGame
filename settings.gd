@@ -1,5 +1,6 @@
 extends Node
-var level_seed = 10
+
+var deleted_node_names = []
 var gifts: int = 0 :
 	set(value):
 		gifts = value
