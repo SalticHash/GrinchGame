@@ -116,7 +116,7 @@ func goto_entered_house():
 	var chimney: Area2D = chimney_container.get_node(str(current_house_id))
 	
 	velocity = Vector2.ZERO
-	global_position = chimney.global_position
+	global_position = chimney.global_position + Vector2(0, $Collision.shape.height)
 	
 	entered_house.emit()
 	entering_house = false

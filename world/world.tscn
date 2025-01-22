@@ -54,18 +54,14 @@ tile_set = ExtResource("5_nv8w1")
 
 [node name="House1" parent="TileMapLayer/Chimneys" instance=ExtResource("6_w6p8d")]
 position = Vector2(2600, 400)
-scale = Vector2(1, 1)
 
 [node name="House2" parent="TileMapLayer/Chimneys" instance=ExtResource("6_w6p8d")]
 position = Vector2(5200, 800)
-scale = Vector2(1, 1)
 
 [node name="House3" parent="TileMapLayer/Chimneys" instance=ExtResource("6_w6p8d")]
 position = Vector2(7400, 400)
-scale = Vector2(1, 1)
 
 [node name="House4" parent="TileMapLayer/Chimneys" instance=ExtResource("6_w6p8d")]
 position = Vector2(10400, 1000)
-scale = Vector2(1, 1)
 
 [connection signal="body_entered" from="Void" to="." method="fall_on_void"]
